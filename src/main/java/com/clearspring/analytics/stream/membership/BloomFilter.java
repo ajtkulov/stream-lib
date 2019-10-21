@@ -94,6 +94,16 @@ public class BloomFilter extends Filter {
         }
     }
 
+    public boolean put(String key) {
+        boolean res = true;
+        for (int bucketIndex : getHashBuckets(key)) {
+            res &= filter_.get(bucketIndex);
+            filter_.set(bucketIndex);
+        }
+
+        return !res;
+    }
+
     public void add(byte[] key) {
         for (int bucketIndex : getHashBuckets(key)) {
             filter_.set(bucketIndex);
@@ -180,17 +190,3 @@ public class BloomFilter extends Filter {
     }
 }
 
-class BloomFilterSerializer implements ICompactSerializer<BloomFilter> {
-
-    public void serialize(BloomFilter bf, DataOutputStream dos)
-            throws IOException {
-        dos.writeInt(bf.getHashCount());
-        BitSetSerializer.serialize(bf.filter(), dos);
-    }
-
-    public BloomFilter deserialize(DataInputStream dis) throws IOException {
-        int hashes = dis.readInt();
-        BitSet bs = BitSetSerializer.deserialize(dis);
-        return new BloomFilter(hashes, bs);
-    }
-}
