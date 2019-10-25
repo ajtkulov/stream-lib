@@ -21,7 +21,7 @@ package com.clearspring.analytics.stream.membership;
 import java.io.IOException;
 import java.util.BitSet;
 
-public class BigBloomFilter extends Filter {
+public class BigBloomFilter extends BigFilter {
 
 //    static ICompactSerializer<BigBloomFilter> serializer_ = new BloomFilterSerializer();
 
@@ -63,7 +63,7 @@ public class BigBloomFilter extends Filter {
     }
 
     public boolean isPresent(String key) {
-        for (int bucketIndex : getHashBuckets(key)) {
+        for (long bucketIndex : getHashBuckets(key)) {
             if (!filter_.get(bucketIndex)) {
                 return false;
             }
@@ -72,7 +72,7 @@ public class BigBloomFilter extends Filter {
     }
 
     public boolean isPresent(byte[] key) {
-        for (int bucketIndex : getHashBuckets(key)) {
+        for (long bucketIndex : getHashBuckets(key)) {
             if (!filter_.get(bucketIndex)) {
                 return false;
             }
@@ -86,14 +86,14 @@ public class BigBloomFilter extends Filter {
      This is a general purpose API.
      */
     public void add(String key) {
-        for (int bucketIndex : getHashBuckets(key)) {
+        for (long bucketIndex : getHashBuckets(key)) {
             filter_.set(bucketIndex);
         }
     }
 
     public boolean put(String key) {
         boolean res = true;
-        for (int bucketIndex : getHashBuckets(key)) {
+        for (long bucketIndex : getHashBuckets(key)) {
             res &= filter_.get(bucketIndex);
             filter_.set(bucketIndex);
         }
@@ -102,7 +102,7 @@ public class BigBloomFilter extends Filter {
     }
 
     public void add(byte[] key) {
-        for (int bucketIndex : getHashBuckets(key)) {
+        for (long bucketIndex : getHashBuckets(key)) {
             filter_.set(bucketIndex);
         }
     }
