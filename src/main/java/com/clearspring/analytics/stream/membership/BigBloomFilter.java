@@ -23,7 +23,7 @@ import java.util.BitSet;
 
 public class BigBloomFilter extends BigFilter {
 
-//    static ICompactSerializer<BigBloomFilter> serializer_ = new BloomFilterSerializer();
+    static ICompactSerializer<BigBloomFilter> serializer_ = new BigBloomFilterSerializer();
 
 //    public static ICompactSerializer<BigBloomFilter> serializer() {
 //        return serializer_;
@@ -33,6 +33,10 @@ public class BigBloomFilter extends BigFilter {
 
     public BigBloomFilter(long numElements, int bucketsPerElement) {
         this(BloomCalculations.computeBestK(bucketsPerElement), new BigBitSet(numElements * bucketsPerElement + 20));
+    }
+
+    public BigBloomFilter(long numElements, int bucketsPerElement, int numHashes) {
+        this(numHashes, new BigBitSet(numElements * bucketsPerElement + 20));
     }
 
     public BigBloomFilter(long numElements, double maxFalsePosProbability) {

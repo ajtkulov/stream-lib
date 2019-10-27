@@ -29,14 +29,14 @@ package com.clearspring.analytics.stream.membership;
  */
 public class BloomCalculations {
 
-    private static final int maxBuckets = 15;
+    private static final int maxBuckets = 19;
     private static final int minBuckets = 2;
     private static final int minK = 1;
-    private static final int maxK = 8;
+    private static final int maxK = 13;
     private static final int[] optKPerBuckets =
             new int[]{1, // dummy K for 0 buckets per element
                       1, // dummy K for 1 buckets per element
-                      1, 2, 3, 3, 4, 5, 5, 6, 7, 8, 8, 9, 10, 10, 11, 12, 12, 13, 14};
+                      1, 2, 3, 3, 4, 5, 5, 6, 7, 8, 8, 9, 10, 10, 11, 12, 12, 13, 14, 15, 16, 17, 18, 19, 20};
 
     /**
      * In the following table, the row 'i' shows false positive rates if i buckets
