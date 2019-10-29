@@ -34,7 +34,7 @@ public class BigBitSetSerializer {
         oos.flush();
     }
 
-    public static BitSet deserialize(DataInputStream dis) throws IOException {
+    public static BigBitSet deserialize(DataInputStream dis) throws IOException {
         ObjectInputStream ois = new ObjectInputStream(dis);
         try {
             return (BigBitSet) ois.readObject();
