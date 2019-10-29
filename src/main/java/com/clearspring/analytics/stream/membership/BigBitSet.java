@@ -110,7 +110,7 @@ public class BigBitSet implements Cloneable, java.io.Serializable {
      * Given a bit index, return word index containing it.
      */
     private static int wordIndex(long bitIndex) {
-        return (int)bitIndex >> ADDRESS_BITS_PER_WORD;
+        return (int)(bitIndex >> ADDRESS_BITS_PER_WORD);
     }
 
     /**
