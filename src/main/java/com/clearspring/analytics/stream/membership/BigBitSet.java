@@ -460,7 +460,7 @@ public class BigBitSet implements Cloneable, java.io.Serializable {
      * @throws IndexOutOfBoundsException if the specified index is negative
      * @since  1.4
      */
-    public void set(int bitIndex, boolean value) {
+    public void set(long bitIndex, boolean value) {
         if (value)
             set(bitIndex);
         else
@@ -536,7 +536,7 @@ public class BigBitSet implements Cloneable, java.io.Serializable {
      * @throws IndexOutOfBoundsException if the specified index is negative
      * @since  JDK1.0
      */
-    public void clear(int bitIndex) {
+    public void clear(long bitIndex) {
         if (bitIndex < 0)
             throw new IndexOutOfBoundsException("bitIndex < 0: " + bitIndex);
 
@@ -561,7 +561,7 @@ public class BigBitSet implements Cloneable, java.io.Serializable {
      *         larger than {@code toIndex}
      * @since  1.4
      */
-    public void clear(int fromIndex, int toIndex) {
+    public void clear(long fromIndex, long toIndex) {
         checkRange(fromIndex, toIndex);
 
         if (fromIndex == toIndex)
