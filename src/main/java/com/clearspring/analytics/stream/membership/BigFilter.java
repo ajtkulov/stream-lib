@@ -40,7 +40,7 @@ public abstract class BigFilter {
     }
 
 
-    abstract int buckets();
+    abstract long buckets();
 
     public abstract void add(String key);
 
@@ -49,23 +49,12 @@ public abstract class BigFilter {
     // for testing
     abstract int emptyBuckets();
 
-    @SuppressWarnings("unchecked")
-    ICompactSerializer<BigFilter> getSerializer() {
-        Method method = null;
-        try {
-            method = getClass().getMethod("serializer");
-            return (ICompactSerializer<BigFilter>) method.invoke(null);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     // Murmur is faster than an SHA-based approach and provides as-good collision
     // resistance.  The combinatorial generation approach described in
     // https://gnunet.org/sites/default/files/LessHashing2006Kirsch.pdf
     // does prove to work in actual tests, and is obviously faster
     // than performing further iterations of murmur.
-    public static long[] getHashBuckets(String key, int hashCount, int max) {
+    public static long[] getHashBuckets(String key, int hashCount, long max) {
         byte[] b;
         try {
             b = key.getBytes("UTF-16");
@@ -75,10 +64,10 @@ public abstract class BigFilter {
         return getHashBuckets(b, hashCount, max);
     }
 
-    static long[] getHashBuckets(byte[] b, int hashCount, int max) {
+    static long[] getHashBuckets(byte[] b, int hashCount, long max) {
         long[] result = new long[hashCount];
-        int hash1 = MurmurHash.hash(b, b.length, 0);
-        int hash2 = MurmurHash.hash(b, b.length, hash1);
+        long hash1 = MurmurHash.hash64(b, b.length, (int)0);
+        long hash2 = MurmurHash.hash64(b, b.length, (int)hash1);
         for (int i = 0; i < hashCount; i++) {
             result[i] = Math.abs((hash1 + i * hash2) % max);
         }

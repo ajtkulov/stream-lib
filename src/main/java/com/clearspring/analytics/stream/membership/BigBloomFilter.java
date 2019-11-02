@@ -23,12 +23,6 @@ import java.util.BitSet;
 
 public class BigBloomFilter extends BigFilter {
 
-    static ICompactSerializer<BigBloomFilter> serializer_ = new BigBloomFilterSerializer();
-
-//    public static ICompactSerializer<BigBloomFilter> serializer() {
-//        return serializer_;
-//    }
-
     private BigBitSet filter_;
 
     public BigBloomFilter(long numElements, int bucketsPerElement) {
@@ -58,8 +52,8 @@ public class BigBloomFilter extends BigFilter {
         filter_.clear();
     }
 
-    public int buckets() {
-        return filter_.size();
+    public long buckets() {
+        return (long)filter_.size();
     }
 
     BigBitSet filter() {
@@ -115,10 +109,6 @@ public class BigBloomFilter extends BigFilter {
         return filter_.toString();
     }
 
-//    ICompactSerializer tserializer() {
-//        return serializer_;
-//    }
-
     int emptyBuckets() {
         int n = 0;
         for (int i = 0; i < buckets(); i++) {
@@ -137,24 +127,6 @@ public class BigBloomFilter extends BigFilter {
         this.filter().or(other.filter());
     }
 
-//    public Filter merge(Filter... filters) {
-//        BigBloomFilter merged = new BigBloomFilter(this.getHashCount(), (BitSet) this.filter().clone());
-//
-//        if (filters == null) {
-//            return merged;
-//        }
-//
-//        for (Filter filter : filters) {
-//            if (!(filter instanceof BigBloomFilter)) {
-//                throw new IllegalArgumentException("Cannot merge filters of different class");
-//            }
-//            BigBloomFilter bf = (BigBloomFilter) filter;
-//            merged.addAll(bf);
-//        }
-//
-//        return merged;
-//    }
-
     /**
      * @return a BloomFilter that always returns a positive match, for testing
      */
@@ -162,32 +134,6 @@ public class BigBloomFilter extends BigFilter {
         BigBitSet set = new BigBitSet(64);
         set.set(0, 64);
         return new BigBloomFilter(1, set);
-    }
-
-    public static byte[] serialize(BigBloomFilter filter) {
-        DataOutputBuffer out = new DataOutputBuffer();
-        try {
-//            BigBloomFilter.serializer().serialize(filter, out);
-            out.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return out.getData();
-    }
-
-    public static BigBloomFilter deserialize(byte[] bytes) {
-        BigBloomFilter filter = null;
-        DataInputBuffer in = new DataInputBuffer();
-        in.reset(bytes, bytes.length);
-        try {
-//            filter = BigBloomFilter.serializer().deserialize(in);
-            in.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return filter;
     }
 }
 

@@ -1045,8 +1045,8 @@ public class BigBitSet implements Cloneable, java.io.Serializable {
      *
      * @return the number of bits currently in this bit set
      */
-    public int size() {
-        return words.length * BITS_PER_WORD;
+    public long size() {
+        return (long)words.length * BITS_PER_WORD;
     }
 
     /**
